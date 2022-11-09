@@ -1,8 +1,21 @@
 #! /usr/bin/env node
 
-const { program } = require('commander')
+const {
+    program
+} = require('commander')
 
-const {login, signup, signout} = require('./commands/auth')
+const {
+    login,
+    signup,
+    signout
+} = require('./commands/auth')
+const {
+    installPackage,
+    installPackages
+} = require('./commands/install')
+const {
+    init
+} = require('./commands/init')
 
 
 program
@@ -17,6 +30,18 @@ program
     .command('logout')
     .description('Logout of your account')
     .action(signout)
-program
 
-    program.parse()
+program
+    .command('install')
+    .description('Install a packages')
+    .action(installPackages)
+program
+    .command('install <package>')
+    .description('Install a package')
+    .action(installPackage)
+
+program
+    .command('init')
+    .description('Initialize a new Flogram project')
+    .action(init)
+program.parse()
