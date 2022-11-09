@@ -1,10 +1,8 @@
 #! /usr/bin/env node
 
 const { program } = require('commander')
-const list = require('./commands/list')
-const add = require('./commands/add')
-const markDone = require('./commands/markDone')
-const {login, signup} = require('./commands/auth')
+
+const {login, signup, signout} = require('./commands/auth')
 
 
 program
@@ -16,18 +14,9 @@ program
     .description('Create account')
     .action(signup)
 program
-    .command('list')
-    .description('List all the TODO tasks')
-    .action(list)
-
+    .command('logout')
+    .description('Logout of your account')
+    .action(signout)
 program
-    .command('add <task>')
-    .description('Add a new TODO task')
-    .action(add)
-program
-    .command('mark-done')
-    .description('Mark commands done')
-    .option('-t, --tasks <tasks...>', 'The tasks to mark done. If not specified, all tasks will be marked done.')
-    .action(markDone)
 
     program.parse()

@@ -1,5 +1,9 @@
 const prompts = require('prompts');
+const chalk = require('chalk')
 const axios = require('axios')
+const conf = new (require('conf'))()
+
+
 const login = async () => {
     const { email, password } = await prompts([
         {
@@ -22,7 +26,11 @@ const login = async () => {
     })
 
     if(res){
-        console.log("Logged in successfully!")
+        console.log(chalk.greenBright("Logged in successfully!"))
+        conf.set('token', res.data.token)
+    }
+    else{
+        console.log(chalk.redBright("Invalid credentials!"))
     }
 }
 
@@ -62,7 +70,21 @@ const signup = async () => {
         password
     })
     if(res){
-        console.log("Signed up successfully!")
+        console.log(
+            chalk.greenBright("Signed up successfully!")
+            )
+    }
+    else{
+        console.log(
+            chalk.yellowBright("Email already used!")
+            )
     }
 }
- module.exports = {login,signup}
+
+const signout = async () => {
+    conf.clear()
+    console.log(
+        chalk.greenBright("Signed out successfully!")
+        )
+}
+ module.exports = {login, signup, signout}
