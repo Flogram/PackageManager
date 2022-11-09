@@ -1,12 +1,14 @@
 const prompts = require('prompts');
 const chalk = require('chalk')
 const axios = require('axios')
-const conf = new (require('conf'))()
+const conf = new(require('conf'))()
 
 
 const login = async () => {
-    const { email, password } = await prompts([
-        {
+    const {
+        email,
+        password
+    } = await prompts([{
             type: 'text',
             name: 'email',
             message: 'Email:'
@@ -17,26 +19,27 @@ const login = async () => {
             message: 'Password:'
         }
     ])
-    const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signup', {
+    const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signin', {
         email,
-        username,
-        first_name,
-        last_name,
         password
     })
 
-    if(res){
+    if (res) {
         console.log(chalk.greenBright("Logged in successfully!"))
         conf.set('token', res.data.token)
-    }
-    else{
+    } else {
         console.log(chalk.redBright("Invalid credentials!"))
     }
 }
 
 const signup = async () => {
-    const { email, username, first_name, last_name, password } = await prompts([
-        {
+    const {
+        email,
+        username,
+        first_name,
+        last_name,
+        password
+    } = await prompts([{
             type: 'text',
             name: 'email',
             message: 'Email:'
@@ -69,15 +72,14 @@ const signup = async () => {
         last_name,
         password
     })
-    if(res){
+    if (res) {
         console.log(
             chalk.greenBright("Signed up successfully!")
-            )
-    }
-    else{
+        )
+    } else {
         console.log(
             chalk.yellowBright("Email already used!")
-            )
+        )
     }
 }
 
@@ -85,6 +87,10 @@ const signout = async () => {
     conf.clear()
     console.log(
         chalk.greenBright("Signed out successfully!")
-        )
+    )
 }
- module.exports = {login, signup, signout}
+module.exports = {
+    login,
+    signup,
+    signout
+}
