@@ -4,7 +4,17 @@ const { program } = require('commander')
 const list = require('./commands/list')
 const add = require('./commands/add')
 const markDone = require('./commands/markDone')
+const {login, signup} = require('./commands/auth')
 
+
+program
+    .command('login')
+    .description('Login to your account')
+    .action(login)
+program
+    .command('signup')
+    .description('Create account')
+    .action(signup)
 program
     .command('list')
     .description('List all the TODO tasks')
