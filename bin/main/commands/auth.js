@@ -19,16 +19,20 @@ const login = async () => {
             message: 'Password:'
         }
     ])
-    const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signin', {
-        email,
-        password
-    })
+    try {
+        const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signin', {
+            email,
+            password
+        })
 
-    if (res) {
-        console.log(chalk.greenBright("Logged in successfully!"))
-        conf.set('token', res.data.token)
-    } else {
-        console.log(chalk.redBright("Invalid credentials!"))
+        if (res) {
+            console.log(chalk.greenBright("Logged in successfully!"))
+            conf.set('token', res.data.token)
+        } else {
+            console.log(chalk.redBright("Invalid credentials!"))
+        }
+    } catch (e) {
+        console.log(e)
     }
 }
 
@@ -65,21 +69,25 @@ const signup = async () => {
             message: 'Password:'
         }
     ])
-    const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signup', {
-        email,
-        username,
-        first_name,
-        last_name,
-        password
-    })
-    if (res) {
-        console.log(
-            chalk.greenBright("Signed up successfully!")
-        )
-    } else {
-        console.log(
-            chalk.yellowBright("Email already used!")
-        )
+    try {
+        const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signup', {
+            email,
+            username,
+            first_name,
+            last_name,
+            password
+        })
+        if (res) {
+            console.log(
+                chalk.greenBright("Signed up successfully!")
+            )
+        } else {
+            console.log(
+                chalk.yellowBright("Email already used!")
+            )
+        }
+    } catch (e) {
+        console.log(e.message)
     }
 }
 
