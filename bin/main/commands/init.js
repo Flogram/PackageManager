@@ -72,7 +72,7 @@ const init = async () => {
     const floignoreContent = `{
         "folders": ["build", "downloads", "test"],
         "files": [],
-        extensions": ["exe", "ide"],
+        "extensions": ["exe", "ide"],
         "settings": []
     }`
 
@@ -92,7 +92,7 @@ const init = async () => {
     }`
     console.log(`\n` + chalk.blue(`Creating project files... \t`))
     console.log(`\n` + chalk.blueBright(`Creating project main entry... \t`))
-    fs.writeFile(`${dirpath}/${answers.main}`, ``, function (err, file) {
+    fs.writeFile(`${dirpath}/${answers.main}`, `#Welcome to ${answers.name}`, function (err, file) {
         if (err) throw err;
     });
 
