@@ -5,11 +5,9 @@ const prompts = require('prompts');
 const fs = require('fs')
 
 const init = async () => {
-    console.log(
+    console.log(`\n` +
         chalk.bgCyanBright.black(`Initializing new Flogram Project... \t`)
     )
-    console.log('\n')
-    console.log(process.cwd())
     const questions = [{
             type: 'text',
             name: 'name',
@@ -66,17 +64,73 @@ const init = async () => {
     ]
 
     const answers = await prompts(questions);
-    console.log(answers);
     const dirpath = `${process.cwd()}/${answers.name}`
-    console.log(dirpath);
     await fs.promises.mkdir(dirpath, {
         recursive: true
     })
 
-    fs.writeFile(`${dirpath}/${answers.main}`, `#Welcome to ${answers.name}`, function (err, file) {
+    const floignoreContent = `{
+        "folders": ["build", "downloads", "test"],
+        "files": [],
+        extensions": ["exe", "ide"],
+        "settings": []
+    }`
+
+    const libContent = `{
+        "builtin":"2.0.3"
+    }`
+
+    const configContent = `{
+        "name": "${answers.name}",
+        "description": "${answers.description}",
+        "author": "${answers.author}",
+        "version": "${answers.version}",
+        "license": "${answers.license}",
+        "keywords": "${answers.keywords}",
+        "main": "${answers.main}",
+        "repository": "${answers.repository}"
+    }`
+    console.log(`\n` + chalk.blue(`Creating project files... \t`))
+    console.log(`\n` + chalk.blueBright(`Creating project main entry... \t`))
+    fs.writeFile(`${dirpath}/${answers.main}`, ``, function (err, file) {
         if (err) throw err;
-        return
     });
+
+    console.log(chalk.blueBright(`Creating Flohub ignore defaults... \t`))
+    fs.writeFile(`${dirpath}/floignore.json`, floignoreContent, function (err, file) {
+        if (err) throw err;
+    });
+
+    console.log(chalk.blueBright(`Configuring library file... \t`))
+    fs.writeFile(`${dirpath}/libs.json`, libContent, function (err, file) {
+        if (err) throw err;
+    });
+
+    console.log(chalk.blueBright(`Configuring project details file... \t`))
+    fs.writeFile(`${dirpath}/config.json`, configContent, function (err, file) {
+        if (err) throw err;
+    });
+
+    console.log(
+        chalk.green(`Project created successfully... \t`)
+    )
+
+    console.log(`\n` +
+        chalk.cyan(`To run your project,  run the following commands \t`)
+    )
+
+
+    console.log(`\n` +
+        chalk.cyan(`1. cd ${answers.name} \t`)
+    )
+
+    console.log(
+        chalk.cyan(`2. flo start \t`)
+    )
+
+    console.log(`\n\n` +
+        chalk.greenBright(`Happy coding\t`) +
+        `\n`)
 
 }
 
