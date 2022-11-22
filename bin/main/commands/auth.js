@@ -3,6 +3,8 @@ const chalk = require('chalk')
 const axios = require('axios')
 const conf = new(require('conf'))()
 
+const API = 'https://lobster-app-ll2jc.ondigitalocean.app';
+
 
 const login = async () => {
     const {
@@ -20,7 +22,7 @@ const login = async () => {
         }
     ])
     try {
-        const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signin', {
+        const res = await axios.post(`${API}/auth/signin`, {
             email,
             password
         })
@@ -29,10 +31,11 @@ const login = async () => {
             console.log(chalk.greenBright("Logged in successfully!"))
             conf.set('token', res.data.token)
         } else {
-            console.log(chalk.redBright("Invalid credentials!"))
+            console.log(chalk.yellowBright("Invalid credentials!"))
         }
     } catch (e) {
-        console.log(e)
+        console.log(chalk.redBright("Error: " +
+            e.response.data.message))
     }
 }
 
@@ -54,23 +57,13 @@ const signup = async () => {
             message: 'Username:'
         },
         {
-            type: 'text',
-            name: 'first_name',
-            message: 'First Name:'
-        },
-        {
-            type: 'text',
-            name: 'last_name',
-            message: 'Last Name:'
-        },
-        {
             type: 'password',
             name: 'password',
             message: 'Password:'
         }
     ])
     try {
-        const res = await axios.post('https://lobster-app-ll2jc.ondigitalocean.app/website-backend2/api/auth/signup', {
+        const res = await axios.post(`${API}/auth/signup`, {
             email,
             username,
             first_name,
@@ -83,11 +76,12 @@ const signup = async () => {
             )
         } else {
             console.log(
-                chalk.yellowBright("Email already used!")
+                chalk.yellowBright("Signup failed! Try again")
             )
         }
     } catch (e) {
-        console.log(e.message)
+        console.log(chalk.redBright("Error: " +
+            e.response.data.message))
     }
 }
 
