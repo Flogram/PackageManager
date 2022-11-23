@@ -8,12 +8,12 @@ const API = 'https://lobster-app-ll2jc.ondigitalocean.app';
 
 const login = async () => {
     const {
-        email,
+        username,
         password
     } = await prompts([{
             type: 'text',
-            name: 'email',
-            message: 'Email:'
+            name: 'username',
+            message: 'Username:'
         },
         {
             type: 'password',
@@ -23,13 +23,14 @@ const login = async () => {
     ])
     try {
         const res = await axios.post(`${API}/auth/signin`, {
-            email,
+            username,
             password
         })
 
         if (res) {
-            console.log(chalk.greenBright("Logged in successfully!"))
-            conf.set('token', res.data.token)
+            console.log(res.data)
+            console.log(chalk.greenBright("Login successful!"))
+            conf.set('access_token', res.data.access_token)
         } else {
             console.log(chalk.yellowBright("Invalid credentials!"))
         }
