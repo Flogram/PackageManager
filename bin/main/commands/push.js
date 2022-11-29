@@ -18,9 +18,20 @@ const push = async (message) => {
         let content = await JSON.parse(data);
        
     const files = await getFileList(content);
-    files.forEach(element => {
-        console.log(element);
-    });
+    const commitData = {
+        name: message || 'Default push message',
+        patches:[]
+    }
+    const emptyStr = ""
+    for(let i= 0; i< files.length; i++){
+        const data = await fs.readFileSync(files[i], 'utf8')
+        commitData.patches.push({
+            path: files[i]?.replace(process.cwd(),emptyStr),
+            type: "create",
+            data
+        })
+    }
+    console.log(commitData);
     console.log(`\n` +
         chalk.bgCyanBright.black(`Preparing files in all directiories... \t`)
     )
@@ -49,7 +60,6 @@ const getFileList = async (content) => {
         withFileTypes: true
     });
 
-    console.log(content)
 
     for (const item of items) {
         if (item.isDirectory()) {
@@ -60,12 +70,9 @@ const getFileList = async (content) => {
                     ...(await getFileList(`${dirName}/${item.name}`)),
                 ];
         } else {
-            console.log("called", item.name)
-            const found = foundInExtensions(content?.extensions, item.name);
-            console.log(found)
-            if (!content?.files?.includes(item.name) && !found){
+            // if (!content?.files?.includes(item.name) && !foundInExtensions(content?.extensions, item.name)){
             files.push(`${dirName}/${item.name}`);
-        }
+        // }
         }
     }
 
@@ -74,13 +81,11 @@ const getFileList = async (content) => {
 
 const foundInExtensions = (extensions, filename) =>{
 
-    extensions?.forEach(element => {
-        // console.log(element, filename, filename.endsWith(element))
-        if(filename.endsWith(element)){
-        return true
+    for(let i = 0; i < extensions.length || 0; i++){
+        if(filename.endsWith(extensions[i]))
+            return true
     }
-    });
-    return false
+    return false;
 }
 module.exports = {
     push

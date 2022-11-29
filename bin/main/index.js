@@ -44,12 +44,13 @@ program
     .action(installPackage)
 
 program
-    .command('push <message>')
-    .description('Pushing current project changes')
-    .action(push)
-
-program
     .command('init')
     .description('Initialize a new Flogram project')
     .action(init)
+
+program
+    .command('push <message>')
+    .description('Pushing current project changes')
+    .action(push)
+    
 program.parse()
