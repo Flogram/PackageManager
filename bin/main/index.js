@@ -16,6 +16,9 @@ const {
 const {
     init
 } = require('./commands/init')
+const {
+    push
+} = require('./commands/push')
 
 
 program
@@ -39,6 +42,11 @@ program
     .command('install <package>')
     .description('Install a package')
     .action(installPackage)
+
+program
+    .command('push <message>')
+    .description('Pushing current project changes')
+    .action(push)
 
 program
     .command('init')
