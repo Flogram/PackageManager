@@ -5,6 +5,9 @@ const fs = require('fs');
 const {
     exit
 } = require("process");
+const axios =  require("axios");
+const { API_URL } = require("../config/api");
+const { getToken } = require("../helpers/userToken");
 const prompts = require('prompts');
 
 const push = async (message) => {
@@ -20,6 +23,7 @@ const push = async (message) => {
     const files = await getFileList(content);
     const commitData = {
         name: message || 'Default push message',
+        libraryId: 1,
         patches:[]
     }
     const emptyStr = ""
@@ -31,10 +35,20 @@ const push = async (message) => {
             data
         })
     }
-    console.log(commitData);
     console.log(`\n` +
         chalk.bgCyanBright.black(`Preparing files in all directiories... \t`)
     )
+    const token = await getToken();
+    try{
+    const pushed = await axios.post(`${API_URL}`,commitData,{ headers: {'x-api-key':token}})
+    if(pushed){
+        console.log(console.log(`\n` +
+        chalk.bgBlack.greenBright(`Changes pushed successfully... \t`)
+    ))
+    }
+} catch(e){
+    console.log(e.response.data.message)
+}
 
     return content;
 })
@@ -70,9 +84,9 @@ const getFileList = async (content) => {
                     ...(await getFileList(`${dirName}/${item.name}`)),
                 ];
         } else {
-            // if (!content?.files?.includes(item.name) && !foundInExtensions(content?.extensions, item.name)){
+            if (!content?.files?.includes(item.name) && !foundInExtensions(content?.extensions, item.name)){
             files.push(`${dirName}/${item.name}`);
-        // }
+        }
         }
     }
 

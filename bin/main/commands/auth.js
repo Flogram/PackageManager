@@ -1,9 +1,9 @@
 const prompts = require('prompts');
 const chalk = require('chalk')
-const axios = require('axios')
+const axios = require('axios');
+const { API_URL } = require('../config/api');
 const conf = new(require('conf'))()
 
-const API = 'https://lobster-app-ll2jc.ondigitalocean.app';
 
 
 const login = async () => {
@@ -22,7 +22,7 @@ const login = async () => {
         }
     ])
     try {
-        const res = await axios.post(`${API}/auth/signin`, {
+        const res = await axios.post(`${API_URL}/auth/signin`, {
             username,
             password
         })
@@ -64,7 +64,7 @@ const signup = async () => {
         }
     ])
     try {
-        const res = await axios.post(`${API}/auth/signup`, {
+        const res = await axios.post(`${API_URL}/auth/signup`, {
             email,
             username,
             first_name,
