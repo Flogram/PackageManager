@@ -2,6 +2,7 @@ const prompts = require('prompts');
 const chalk = require('chalk')
 const axios = require('axios');
 const { API_URL } = require('../config/api');
+const { setToken, resetToken } = require('../helpers/userToken');
 const conf = new(require('conf'))()
 
 
@@ -28,9 +29,9 @@ const login = async () => {
         })
 
         if (res) {
-            console.log(res.data)
+            await setToken(res.data.token);
             console.log(chalk.greenBright("Login successful!"))
-            conf.set('access_token', res.data.access_token)
+            
         } else {
             console.log(chalk.yellowBright("Invalid credentials!"))
         }
@@ -87,7 +88,7 @@ const signup = async () => {
 }
 
 const signout = async () => {
-    conf.clear()
+    await resetToken()
     console.log(
         chalk.greenBright("Signed out successfully!")
     )
