@@ -1,7 +1,7 @@
 const conf = new(require('conf'))()
 
-const setToken = () => {
-    conf.set('access_token', res.data.access_token)
+const setToken = (access_token) => {
+    conf.set('access_token', access_token)
     return
 }
 
@@ -14,4 +14,8 @@ const getToken = () => {
 }
 
 
-module.exports = {setToken, resetToken, getToken}
+module.exports = {
+    setToken,
+    resetToken,
+    getToken
+}

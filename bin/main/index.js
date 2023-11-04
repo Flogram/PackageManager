@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 const {
-    program
+    Command
 } = require('commander')
 
 const {
@@ -20,6 +20,11 @@ const {
     push
 } = require('./commands/push')
 
+const {
+    run
+} = require('./commands/run')
+
+const program = new Command();
 
 program
     .command('login')
@@ -49,8 +54,15 @@ program
     .action(init)
 
 program
-    .command('push <message>')
+    .command('push')
+    .argument('<message>', 'Your commit message')
     .description('Pushing current project changes')
     .action(push)
+
+program
+    .command('run')
+    .argument('path', 'File path')
+    .description('Runs Flogram Code in a specified file path')
+    .action(run)
     
 program.parse()

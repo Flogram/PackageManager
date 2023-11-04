@@ -1,8 +1,13 @@
 const prompts = require('prompts');
 const chalk = require('chalk')
 const axios = require('axios');
-const { API_URL } = require('../config/api');
-const { setToken, resetToken } = require('../helpers/userToken');
+const {
+    API_URL
+} = require('../config/api');
+const {
+    setToken,
+    resetToken
+} = require('../helpers/userToken');
 const conf = new(require('conf'))()
 
 
@@ -14,7 +19,7 @@ const login = async () => {
     } = await prompts([{
             type: 'text',
             name: 'username',
-            message: 'Username:'
+            message: 'Email/Username:'
         },
         {
             type: 'password',
@@ -24,18 +29,20 @@ const login = async () => {
     ])
     try {
         const res = await axios.post(`${API_URL}/auth/signin`, {
-            username,
+            usernameOrEmail: username,
             password
         })
 
         if (res) {
             await setToken(res.data.token);
             console.log(chalk.greenBright("Login successful!"))
-            
+
         } else {
             console.log(chalk.yellowBright("Invalid credentials!"))
         }
     } catch (e) {
+        console.log(e)
+        console.log("nanana")
         console.log(chalk.redBright("Error: " +
             e.response.data.message))
     }

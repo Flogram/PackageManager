@@ -42,7 +42,7 @@ const push = async (message) => {
         )
         const token = await getToken();
         try {
-            const pushed = await axios.post(`${API_URL}`, commitData, {
+            const pushed = await axios.post(`${API_URL}/commits`, commitData, {
                 headers: {
                     'x-api-key': token
                 }
@@ -53,6 +53,7 @@ const push = async (message) => {
                 ))
             }
         } catch (e) {
+            console.log(e)
             console.log(chalk.redBright(e.response.data.message))
         }
 
