@@ -1,5 +1,5 @@
-import * as chalk from 'chalk';
-import * as prompts from 'prompts';
+import chalk from 'chalk';
+import prompts from 'prompts';
 import * as axios from 'axios';
 import * as API from '../config/api.js';
 import * as UserToken from '../helpers/userToken.js';

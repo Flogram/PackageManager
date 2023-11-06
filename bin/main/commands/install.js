@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 export const installPackages = () => {
 	console.log('\n' + chalk.bgCyanBright.black(`Installing packages...`) + '\n');

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-import * as prompts from 'prompts';
-import * as chalk from 'chalk';
+import prompts from 'prompts';
+import chalk from 'chalk';
 
 export const init = async () => {
 	console.log(`\n` + chalk.bgCyanBright.black(`Initializing new Flogram Project... \t`));

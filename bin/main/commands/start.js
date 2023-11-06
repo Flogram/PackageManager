@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import {
 	Parser,
 	Tokenizer,
@@ -9,6 +9,8 @@ import {
 } from '@munezero/floparser';
 
 import * as fs from 'fs';
+
+const ENCODER = new TextEncoder();
 
 const execute = async (glue, module, moduleName, procedureName) => {
 	let key;
@@ -52,6 +54,7 @@ const execute = async (glue, module, moduleName, procedureName) => {
 };
 
 export const start = async (path, procedure) => {
+	try{
 	const filePath = `${process.cwd()}/${path}`;
 	let content = fs.readFileSync(filePath, 'utf8');
 
@@ -72,7 +75,7 @@ export const start = async (path, procedure) => {
 	});
 
 	parser.on(Parser.EVENT_FAIL, (failure) => {
-		failures = failures.push(failure);
+		failures.push(failure);
 		representation = null;
 	});
 
@@ -84,7 +87,7 @@ export const start = async (path, procedure) => {
 		parser.feed(position, array, index, length);
 	});
 
-	tokenizer.feed(ENCODER.encode(value));
+	tokenizer.feed(ENCODER.encode(content));
 
 	tokenizer.done();
 
@@ -95,10 +98,26 @@ export const start = async (path, procedure) => {
 			memory: true,
 			draws: true
 		});
+		console.log(chalk.greenBright("Code parsing successful..."))
+		console.log(chalk.green("Onwards to compiling..."))
 
 		const [glue, module] = Compiler.compile(representation, compilerOptions);
+
+		console.log(chalk.greenBright("Code compilation successful..."))
+		console.log(chalk.green("Onwards to running...\n"))
 		await execute(glue, module, moduleName, procedure);
 	} else {
-		console.log(failures);
+
+		failures.forEach(failure => {
+			console.log("\n")
+			console.log(chalk.redBright("Error: "+failure.message.split('\n').join(' ')))
+			const {message, ..._} = failure;
+			console.log(_)
+		});
+
 	}
+}
+catch(e){
+	console.log(chalk.red("Error Occurred: ", e.message))
+}
 };
