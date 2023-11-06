@@ -1,21 +1,16 @@
-const conf = new(require('conf'))()
+import Conf from 'conf';
 
-const setToken = (access_token) => {
-    conf.set('access_token', access_token)
-    return
-}
+const config = new Conf({ projectName: 'flogram' });
 
-const resetToken = () => {
-    conf.clear()
-}
+export const setToken = (access_token) => {
+	conf.set('access_token', access_token);
+	return;
+};
 
-const getToken = () => {
-    return conf.get('access_token') || ''
-}
+export const resetToken = () => {
+	conf.clear();
+};
 
-
-module.exports = {
-    setToken,
-    resetToken,
-    getToken
-}
+export const getToken = () => {
+	return conf.get('access_token') || '';
+};

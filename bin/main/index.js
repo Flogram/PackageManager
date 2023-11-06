@@ -1,68 +1,36 @@
 #! /usr/bin/env node
 
-const {
-    Command
-} = require('commander')
+import { Command } from 'commander';
 
-const {
-    login,
-    signup,
-    signout
-} = require('./commands/auth')
-const {
-    installPackage,
-    installPackages
-} = require('./commands/install')
-const {
-    init
-} = require('./commands/init')
-const {
-    push
-} = require('./commands/push')
+import { login, signup, signout } from './commands/auth.js';
+import { installPackage, installPackages } from './commands/install.js';
+import { init } from './commands/init.js';
+import { push } from './commands/push.js';
 
-const {
-    run
-} = require('./commands/run')
+import { start } from './commands/start.js';
 
 const program = new Command();
 
-program
-    .command('login')
-    .description('Login to your account')
-    .action(login)
-program
-    .command('signup')
-    .description('Create account')
-    .action(signup)
-program
-    .command('logout')
-    .description('Logout of your account')
-    .action(signout)
+program.command('login').description('Login to your account').action(login);
+program.command('signup').description('Create account').action(signup);
+program.command('logout').description('Logout of your account').action(signout);
+
+program.command('install').description('Install a packages').action(installPackages);
+program.command('install <package>').description('Install a package').action(installPackage);
+
+program.command('init').description('Initialize a new Flogram project').action(init);
 
 program
-    .command('install')
-    .description('Install a packages')
-    .action(installPackages)
-program
-    .command('install <package>')
-    .description('Install a package')
-    .action(installPackage)
+	.command('push')
+	.argument('<message>', 'Your commit message')
+	.description('Pushing current project changes')
+	.action(push);
 
 program
-    .command('init')
-    .description('Initialize a new Flogram project')
-    .action(init)
+	.command('run')
+	.argument('path', 'File path')
+	.argument('procedure', 'Procedure name')
+	.description('Runs Flogram procedure in a specified file path')
+	.action(start);
 
-program
-    .command('push')
-    .argument('<message>', 'Your commit message')
-    .description('Pushing current project changes')
-    .action(push)
-
-program
-    .command('run')
-    .argument('path', 'File path')
-    .description('Runs Flogram Code in a specified file path')
-    .action(run)
-    
-program.parse()
+program.parse();

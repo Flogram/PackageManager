@@ -1,10 +1,10 @@
 {
-        "name": "test",
-        "description": "Testing features",
-        "author": "didiermun",
-        "version": "1.0.0",
-        "license": "MIT",
-        "keywords": "test testing",
-        "main": "main.flo",
-        "repository": ""
-    }
+	"name": "test",
+	"description": "Testing features",
+	"author": "didiermun",
+	"version": "1.0.0",
+	"license": "MIT",
+	"keywords": "test testing",
+	"main": "main.flo",
+	"repository": ""
+}

@@ -1,6 +1,6 @@
 {
-  "folders": ["build", "downloads", "test"],
-  "files": [],
-  "extensions": ["exe", "ide", "json"],
-  "settings": []
+	"folders": ["build", "downloads", "test"],
+	"files": [],
+	"extensions": ["exe", "ide", "json"],
+	"settings": []
 }

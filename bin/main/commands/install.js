@@ -1,20 +1,9 @@
-const {
-    default: chalk
-} = require("chalk")
+import * as chalk from 'chalk';
 
-const installPackages = () => {
-    console.log('\n' +
-        chalk.bgCyanBright.black(`Installing packages...`) + '\n'
-    )
-}
+export const installPackages = () => {
+	console.log('\n' + chalk.bgCyanBright.black(`Installing packages...`) + '\n');
+};
 
-const installPackage = (package) => {
-    console.log('\n' +
-        chalk.bgCyanBright.black(`Installing ${package}...`) + '\n'
-    )
-}
-
-module.exports = {
-    installPackage,
-    installPackages
-}
+export const installPackage = (pkg) => {
+	console.log('\n' + chalk.bgCyanBright.black(`Installing ${pkg}...`) + '\n');
+};
