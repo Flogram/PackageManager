@@ -30,6 +30,7 @@ program
 	.command('run')
 	.argument('path', 'File path')
 	.argument('procedure', 'Procedure name')
+	.option('--args <args...>', 'specify inputs')
 	.description('Runs Flogram procedure in a specified file path')
 	.action(start);
 
