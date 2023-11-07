@@ -9,11 +9,15 @@ import {
 } from '@munezero/floparser';
 
 import * as fs from 'fs';
-import { BigIntegerTypes, FloatingPointTypes, SmallIntegerTypes } from '../utils/startUtils.js';
+import { BigIntegerTypes, FloatingPointTypes, SmallIntegerTypes, String, anArray } from '../utils/startUtils.js';
 
 const ENCODER = new TextEncoder();
 
-const checkInputs = async (procedureName, moduleName, representation, parameters, memory) => {
+const stringToCharCodes = (str) => {
+	return Array.from(str).map(character => character.charCodeAt(0));
+  }
+
+const checkInputs = async (procedureName, moduleName, representation, parameters, memory, state) => {
 	const inputs = [];
 	console.log(parameters);
 	// console.log(representation);
@@ -45,6 +49,26 @@ const checkInputs = async (procedureName, moduleName, representation, parameters
 				throw new Error(`Mismatching type of arguments passed to ${procedureName} during call. Expected ${element.data.name} but got ${typeof parameters[index]}.`);
 			}
 			inputs.push(parseFloat(parameters[index]))
+		}
+		else if(String ===  element.data.name){
+
+			const encodedString = stringToCharCodes(parameters[index]);
+			const memoryNumbers = new Int32Array(memory.buffer);
+
+			const start = state.alloc(parameters[index].length*4);
+			memoryNumbers.splice(start/4, encodedString.length, ...encodedString);
+
+			inputs.push(start,encodedString.length);
+		}
+		else if(anArray ===  element.data.name){
+
+			const encodedString = stringToCharCodes(parameters[index]);
+			const memoryNumbers = new Int32Array(memory.buffer);
+
+			const start = state.alloc(parameters[index].length*4);
+			memoryNumbers.splice(start/4, encodedString.length, ...encodedString);
+			
+			inputs.push(start,encodedString.length);
 		}
 	}
 
@@ -82,7 +106,7 @@ const execute = async (glue, module, moduleName, procedureName, representation, 
 			}
 		});
 
-		const inputs = await checkInputs(procedureName, moduleName, representation, paramaters, memory);
+		const inputs = await checkInputs(procedureName, moduleName, representation, paramaters, memory, state);
 		const moduleCompiled = await WebAssembly.compile(module);
 		const moduleInstance = await WebAssembly.instantiate(moduleCompiled, descriptionImports);
 

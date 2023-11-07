@@ -11,7 +11,8 @@
 	"license": "MIT",
 	"bin": {
 		"flogram": "./bin/index.js",
-		"flo": "./bin/main/index.js"
+		"flo": "./bin/main/index.js",
+		"flo-serve": "./bin/main/index.js"
 	},
 	"type": "module",
 	"dependencies": {
