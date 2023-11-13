@@ -2,7 +2,7 @@
 Execute Flogram commands directly from your terminal.
 
 ##Installation
-1. Clone this repository: ``git clone git@github.com:Flogram/PackageManager.git``
+1. Clone this repository: ```git clone git@github.com:Flogram/PackageManager.git```
 2. Navigate to the repository: ``cd PackageManager``
 3. Install the package globally with ``npm install -g .`` to enable command access across your entire system.
 
